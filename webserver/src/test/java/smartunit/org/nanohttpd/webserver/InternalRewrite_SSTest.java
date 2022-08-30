@@ -4,6 +4,39 @@
 
 package smartunit.org.nanohttpd.webserver;
 
+/*
+ * #%L
+ * NanoHttpd-Webserver
+ * %%
+ * Copyright (C) 2012 - 2022 nanohttpd
+ * %%
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the nanohttpd nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software without
+ *    specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * #L%
+ */
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.lang.reflect.Method;
@@ -19,31 +52,35 @@ import org.smartunit.runtime.SmartRunnerParameters;
 import org.smartunit.runtime.TransactionTemplateAnswer;
 import org.smartunit.runtime.ViolatedAssumptionAnswer;
 
-@RunWith(SmartRunner.class) @SmartRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true) 
+@RunWith(SmartRunner.class)
+@SmartRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true)
 public class InternalRewrite_SSTest extends InternalRewrite_SSTest_scaffolding {
 
-  @Test(timeout = 4000)
-  public void test_getHeaders_0()  throws Throwable  {
-      //caseID:d4b591ed2de7b947fc2d73461264f95b
-      Map<String, String> map0 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      doReturn("4").when(map0).toString();
-      InternalRewrite internalRewrite0 = new InternalRewrite(map0, "text/html");
-      Map<String, String> map1 = internalRewrite0.getHeaders();
-      assertSame(map1, map0);
-  }
-  @Test(timeout = 4000)
-  public void test_getHeaders_1()  throws Throwable  {
-      //caseID:01d23d2f243481db47ca9b24a7ca6379
-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
-      InternalRewrite internalRewrite0 = new InternalRewrite(hashMap0, "1.0");
-      Map<String, String> map0 = internalRewrite0.getHeaders();
-      assertEquals(0, map0.size());
-  }
-  @Test(timeout = 4000)
-  public void test_getUri_2()  throws Throwable  {
-      //caseID:16c07f84db195dcabced60c2dd6f3630
-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
-      InternalRewrite internalRewrite0 = new InternalRewrite(hashMap0, "9");
-      String string0 = internalRewrite0.getUri();
-      assertEquals("9", string0);
-  }}
+    @Test(timeout = 4000)
+    public void test_getHeaders_0() throws Throwable {
+        // caseID:d4b591ed2de7b947fc2d73461264f95b
+        Map<String, String> map0 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        doReturn("4").when(map0).toString();
+        InternalRewrite internalRewrite0 = new InternalRewrite(map0, "text/html");
+        Map<String, String> map1 = internalRewrite0.getHeaders();
+        assertSame(map1, map0);
+    }
+
+    @Test(timeout = 4000)
+    public void test_getHeaders_1() throws Throwable {
+        // caseID:01d23d2f243481db47ca9b24a7ca6379
+        HashMap<String, String> hashMap0 = new HashMap<String, String>();
+        InternalRewrite internalRewrite0 = new InternalRewrite(hashMap0, "1.0");
+        Map<String, String> map0 = internalRewrite0.getHeaders();
+        assertEquals(0, map0.size());
+    }
+
+    @Test(timeout = 4000)
+    public void test_getUri_2() throws Throwable {
+        // caseID:16c07f84db195dcabced60c2dd6f3630
+        HashMap<String, String> hashMap0 = new HashMap<String, String>();
+        InternalRewrite internalRewrite0 = new InternalRewrite(hashMap0, "9");
+        String string0 = internalRewrite0.getUri();
+        assertEquals("9", string0);
+    }
+}

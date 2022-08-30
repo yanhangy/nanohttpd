@@ -5,6 +5,39 @@
 
 package smartunit.org.nanohttpd.fileupload;
 
+/*
+ * #%L
+ * NanoHttpd-apache file upload integration
+ * %%
+ * Copyright (C) 2012 - 2022 nanohttpd
+ * %%
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the nanohttpd nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software without
+ *    specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * #L%
+ */
+
 import org.smartunit.runtime.annotation.SmartSuiteClassExclude;
 import org.junit.BeforeClass;
 import org.junit.Before;
@@ -14,83 +47,87 @@ import org.smartunit.runtime.sandbox.Sandbox;
 import org.smartunit.runtime.sandbox.Sandbox.SandboxMode;
 
 import static org.smartunit.shaded.org.mockito.Mockito.*;
+
 @SmartSuiteClassExclude
 public class NanoFileUpload_SSTest_scaffolding {
 
-  @org.junit.Rule 
-  public org.smartunit.runtime.vnet.NonFunctionalRequirementRule nfr = new org.smartunit.runtime.vnet.NonFunctionalRequirementRule();
+    @org.junit.Rule
+    public org.smartunit.runtime.vnet.NonFunctionalRequirementRule nfr = new org.smartunit.runtime.vnet.NonFunctionalRequirementRule();
 
-  private static final java.util.Properties defaultProperties = (java.util.Properties) java.lang.System.getProperties().clone(); 
+    private static final java.util.Properties defaultProperties = (java.util.Properties) java.lang.System.getProperties().clone();
 
-  private final org.smartunit.runtime.thread.ThreadStopper threadStopper =  new org.smartunit.runtime.thread.ThreadStopper (org.smartunit.runtime.thread.KillSwitchHandler.getInstance(), 3000);
+    private final org.smartunit.runtime.thread.ThreadStopper threadStopper = new org.smartunit.runtime.thread.ThreadStopper(
+            org.smartunit.runtime.thread.KillSwitchHandler.getInstance(), 3000);
 
+    @BeforeClass
+    public static void initSmartSuiteFramework() {
+        org.smartunit.runtime.RuntimeSettings.className = "org.nanohttpd.fileupload.NanoFileUpload";
+        org.smartunit.runtime.GuiSupport.initialize();
+        org.smartunit.runtime.RuntimeSettings.maxNumberOfThreads = 100;
+        org.smartunit.runtime.RuntimeSettings.maxNumberOfIterationsPerLoop = Long.MAX_VALUE;
+        org.smartunit.runtime.RuntimeSettings.mockSystemIn = true;
+        org.smartunit.runtime.RuntimeSettings.sandboxMode = org.smartunit.runtime.sandbox.Sandbox.SandboxMode.RECOMMENDED;
+        org.smartunit.runtime.sandbox.Sandbox.initializeSecurityManagerForSUT();
+        org.smartunit.runtime.classhandling.JDKClassResetter.init();
+        setSystemProperties();
+        initializeClasses();
+        org.smartunit.runtime.Runtime.getInstance().resetRuntime();
+        try {
+            initMocksToAvoidTimeoutsInTheTests();
+        } catch (ClassNotFoundException e) {
+        }
+    }
 
-  @BeforeClass 
-  public static void initSmartSuiteFramework() { 
-    org.smartunit.runtime.RuntimeSettings.className = "org.nanohttpd.fileupload.NanoFileUpload"; 
-    org.smartunit.runtime.GuiSupport.initialize(); 
-    org.smartunit.runtime.RuntimeSettings.maxNumberOfThreads = 100; 
-    org.smartunit.runtime.RuntimeSettings.maxNumberOfIterationsPerLoop = Long.MAX_VALUE; 
-    org.smartunit.runtime.RuntimeSettings.mockSystemIn = true; 
-    org.smartunit.runtime.RuntimeSettings.sandboxMode = org.smartunit.runtime.sandbox.Sandbox.SandboxMode.RECOMMENDED; 
-    org.smartunit.runtime.sandbox.Sandbox.initializeSecurityManagerForSUT(); 
-    org.smartunit.runtime.classhandling.JDKClassResetter.init();
-    setSystemProperties();
-    initializeClasses();
-    org.smartunit.runtime.Runtime.getInstance().resetRuntime(); 
-    try { initMocksToAvoidTimeoutsInTheTests(); } catch(ClassNotFoundException e) {} 
-  } 
+    @AfterClass
+    public static void clearSmartSuiteFramework() {
+        resetClasses();
+        Sandbox.resetDefaultSecurityManager();
+        java.lang.System.setProperties((java.util.Properties) defaultProperties.clone());
+    }
 
-  @AfterClass 
-  public static void clearSmartSuiteFramework(){ 
-    resetClasses(); 
-    Sandbox.resetDefaultSecurityManager(); 
-    java.lang.System.setProperties((java.util.Properties) defaultProperties.clone()); 
-  } 
+    @Before
+    public void initTestCase() {
+        threadStopper.storeCurrentThreads();
+        threadStopper.startRecordingTime();
+        org.smartunit.runtime.jvm.ShutdownHookHandler.getInstance().initHandler();
+        org.smartunit.runtime.sandbox.Sandbox.goingToExecuteSUTCode();
+        setSystemProperties();
+        org.smartunit.runtime.GuiSupport.setHeadless();
+        org.smartunit.runtime.Runtime.getInstance().resetRuntime();
+        org.smartunit.runtime.agent.InstrumentingAgent.activate();
+    }
 
-  @Before 
-  public void initTestCase(){ 
-    threadStopper.storeCurrentThreads();
-    threadStopper.startRecordingTime();
-    org.smartunit.runtime.jvm.ShutdownHookHandler.getInstance().initHandler(); 
-    org.smartunit.runtime.sandbox.Sandbox.goingToExecuteSUTCode(); 
-    setSystemProperties(); 
-    org.smartunit.runtime.GuiSupport.setHeadless(); 
-    org.smartunit.runtime.Runtime.getInstance().resetRuntime(); 
-    org.smartunit.runtime.agent.InstrumentingAgent.activate(); 
-  } 
+    @After
+    public void doneWithTestCase() {
+        threadStopper.killAndJoinClientThreads();
+        org.smartunit.runtime.jvm.ShutdownHookHandler.getInstance().safeExecuteAddedHooks();
+        org.smartunit.runtime.classhandling.JDKClassResetter.reset();
+        org.smartunit.runtime.classhandling.ClassStateSupport.resetCUT();
+        org.smartunit.runtime.sandbox.Sandbox.doneWithExecutingSUTCode();
+        org.smartunit.runtime.agent.InstrumentingAgent.deactivate();
+        org.smartunit.runtime.GuiSupport.restoreHeadlessMode();
+    }
 
-  @After 
-  public void doneWithTestCase(){ 
-    threadStopper.killAndJoinClientThreads();
-    org.smartunit.runtime.jvm.ShutdownHookHandler.getInstance().safeExecuteAddedHooks(); 
-    org.smartunit.runtime.classhandling.JDKClassResetter.reset(); 
-    org.smartunit.runtime.classhandling.ClassStateSupport.resetCUT(); 
-    org.smartunit.runtime.sandbox.Sandbox.doneWithExecutingSUTCode(); 
-    org.smartunit.runtime.agent.InstrumentingAgent.deactivate(); 
-    org.smartunit.runtime.GuiSupport.restoreHeadlessMode(); 
-  } 
+    public static void setSystemProperties() {
 
-  public static void setSystemProperties() {
- 
-    java.lang.System.setProperties((java.util.Properties) defaultProperties.clone()); 
-    java.lang.System.setProperty("java.io.tmpdir", "/tmp"); 
-  }
-  private static void initMocksToAvoidTimeoutsInTheTests() throws ClassNotFoundException { 
-    mock(Class.forName("java.io.InputStream", false, NanoFileUpload_SSTest_scaffolding.class.getClassLoader()), withSettings().stubOnly());
-    mock(Class.forName("java.util.Map", false, NanoFileUpload_SSTest_scaffolding.class.getClassLoader()), withSettings().stubOnly());
-    mock(Class.forName("org.apache.commons.fileupload.FileItemFactory", false, NanoFileUpload_SSTest_scaffolding.class.getClassLoader()), withSettings().stubOnly());
-    mock(Class.forName("org.nanohttpd.protocols.http.IHTTPSession", false, NanoFileUpload_SSTest_scaffolding.class.getClassLoader()), withSettings().stubOnly());
-  }
+        java.lang.System.setProperties((java.util.Properties) defaultProperties.clone());
+        java.lang.System.setProperty("java.io.tmpdir", "/tmp");
+    }
 
-  private static void initializeClasses() {
-    org.smartunit.runtime.classhandling.ClassStateSupport.initializeClasses(NanoFileUpload_SSTest_scaffolding.class.getClassLoader() , ""
-    );
-  } 
+    private static void initMocksToAvoidTimeoutsInTheTests() throws ClassNotFoundException {
+        mock(Class.forName("java.io.InputStream", false, NanoFileUpload_SSTest_scaffolding.class.getClassLoader()), withSettings().stubOnly());
+        mock(Class.forName("java.util.Map", false, NanoFileUpload_SSTest_scaffolding.class.getClassLoader()), withSettings().stubOnly());
+        mock(Class.forName("org.apache.commons.fileupload.FileItemFactory", false, NanoFileUpload_SSTest_scaffolding.class.getClassLoader()), withSettings().stubOnly());
+        mock(Class.forName("org.nanohttpd.protocols.http.IHTTPSession", false, NanoFileUpload_SSTest_scaffolding.class.getClassLoader()), withSettings().stubOnly());
+    }
 
-  private static void resetClasses() {
-    org.smartunit.runtime.classhandling.ClassResetter.getInstance().setClassLoader(NanoFileUpload_SSTest_scaffolding.class.getClassLoader()); 
+    private static void initializeClasses() {
+        org.smartunit.runtime.classhandling.ClassStateSupport.initializeClasses(NanoFileUpload_SSTest_scaffolding.class.getClassLoader(), "");
+    }
 
-    org.smartunit.runtime.classhandling.ClassStateSupport.resetClasses();
-  }
+    private static void resetClasses() {
+        org.smartunit.runtime.classhandling.ClassResetter.getInstance().setClassLoader(NanoFileUpload_SSTest_scaffolding.class.getClassLoader());
+
+        org.smartunit.runtime.classhandling.ClassStateSupport.resetClasses();
+    }
 }

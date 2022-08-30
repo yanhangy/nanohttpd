@@ -4,6 +4,39 @@
 
 package smartunit.org.nanohttpd.fileupload;
 
+/*
+ * #%L
+ * NanoHttpd-apache file upload integration
+ * %%
+ * Copyright (C) 2012 - 2022 nanohttpd
+ * %%
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the nanohttpd nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software without
+ *    specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * #L%
+ */
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.lang.reflect.Method;
@@ -22,96 +55,102 @@ import org.smartunit.runtime.SmartRunnerParameters;
 import org.smartunit.runtime.TransactionTemplateAnswer;
 import org.smartunit.runtime.ViolatedAssumptionAnswer;
 
-@RunWith(SmartRunner.class) @SmartRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true) 
+@RunWith(SmartRunner.class)
+@SmartRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true)
 public class NanoFileUpload_SSTest extends NanoFileUpload_SSTest_scaffolding {
 
-  @Test(timeout = 4000)
-  public void test_getCharacterEncoding_0()  throws Throwable  {
-      //caseID:09489b9b9ce95062639694cfbae44f34
-      FileItemFactory fileItemFactory0 = mock(FileItemFactory.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      NanoFileUpload nanoFileUpload0 = new NanoFileUpload(fileItemFactory0);
-      IHTTPSession iHTTPSession0 = mock(IHTTPSession.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      NanoFileUpload.NanoHttpdContext nanoFileUpload_NanoHttpdContext0 = new NanoFileUpload.NanoHttpdContext(iHTTPSession0);
-      String string0 = nanoFileUpload_NanoHttpdContext0.getCharacterEncoding();
-      assertEquals("UTF-8", string0);
-  }
-  @Test(timeout = 4000)
-  public void test_getItemIterator_1()  throws Throwable  {
-      //caseID:0e03fb637320220ca868f6a15969f844
-      FileItemFactory fileItemFactory0 = mock(FileItemFactory.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      NanoFileUpload nanoFileUpload0 = new NanoFileUpload(fileItemFactory0);
+    @Test(timeout = 4000)
+    public void test_getCharacterEncoding_0() throws Throwable {
+        // caseID:09489b9b9ce95062639694cfbae44f34
+        FileItemFactory fileItemFactory0 = mock(FileItemFactory.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        NanoFileUpload nanoFileUpload0 = new NanoFileUpload(fileItemFactory0);
+        IHTTPSession iHTTPSession0 = mock(IHTTPSession.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        NanoFileUpload.NanoHttpdContext nanoFileUpload_NanoHttpdContext0 = new NanoFileUpload.NanoHttpdContext(iHTTPSession0);
+        String string0 = nanoFileUpload_NanoHttpdContext0.getCharacterEncoding();
+        assertEquals("UTF-8", string0);
+    }
 
-      //prepare data for iHTTPSession0
-      Map<String, String> map0 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      IHTTPSession iHTTPSession0 = mock(IHTTPSession.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      doReturn(map0).when(iHTTPSession0).getHeaders();
-      try { 
+    @Test(timeout = 4000)
+    public void test_getItemIterator_1() throws Throwable {
+        // caseID:0e03fb637320220ca868f6a15969f844
+        FileItemFactory fileItemFactory0 = mock(FileItemFactory.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        NanoFileUpload nanoFileUpload0 = new NanoFileUpload(fileItemFactory0);
 
-        //invoke method for nanoFileUpload0
-        nanoFileUpload0.getItemIterator(iHTTPSession0);
-      } catch(Throwable e) {
-         verifyException("org.apache.commons.fileupload.FileUploadBase$FileItemIteratorImpl", e);
-         assertEquals("org.apache.commons.fileupload.FileUploadBase$InvalidContentTypeException", e.getClass().getName());
-         assertEquals("the request doesn't contain a multipart/form-data or multipart/mixed stream, content type header is null", e.getMessage());
-      }
-  }
-  @Test(timeout = 4000)
-  public void test_parseParameterMap_2()  throws Throwable  {
-      //caseID:d99482c0bd162078403c438f76c49a95
-      FileItemFactory fileItemFactory0 = mock(FileItemFactory.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      NanoFileUpload nanoFileUpload0 = new NanoFileUpload(fileItemFactory0);
+        // prepare data for iHTTPSession0
+        Map<String, String> map0 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        IHTTPSession iHTTPSession0 = mock(IHTTPSession.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        doReturn(map0).when(iHTTPSession0).getHeaders();
+        try {
 
-      //prepare data for iHTTPSession0
-      Map<String, String> map0 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      IHTTPSession iHTTPSession0 = mock(IHTTPSession.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      doReturn(map0).when(iHTTPSession0).getHeaders();
-      try { 
+            // invoke method for nanoFileUpload0
+            nanoFileUpload0.getItemIterator(iHTTPSession0);
+        } catch (Throwable e) {
+            verifyException("org.apache.commons.fileupload.FileUploadBase$FileItemIteratorImpl", e);
+            assertEquals("org.apache.commons.fileupload.FileUploadBase$InvalidContentTypeException", e.getClass().getName());
+            assertEquals("the request doesn't contain a multipart/form-data or multipart/mixed stream, content type header is null", e.getMessage());
+        }
+    }
 
-        //invoke method for nanoFileUpload0
-        nanoFileUpload0.parseParameterMap(iHTTPSession0);
-      } catch(Throwable e) {
-         verifyException("org.apache.commons.fileupload.FileUploadBase$FileItemIteratorImpl", e);
-         assertEquals("org.apache.commons.fileupload.FileUploadBase$InvalidContentTypeException", e.getClass().getName());
-         assertEquals("the request doesn't contain a multipart/form-data or multipart/mixed stream, content type header is null", e.getMessage());
-      }
-  }
-  @Test(timeout = 4000)
-  public void test_getContentLength_3()  throws Throwable  {
-      //caseID:38ab5c37b1b67de96a9621ad8b537e33
-      FileItemFactory fileItemFactory0 = mock(FileItemFactory.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      NanoFileUpload nanoFileUpload0 = new NanoFileUpload(fileItemFactory0);
+    @Test(timeout = 4000)
+    public void test_parseParameterMap_2() throws Throwable {
+        // caseID:d99482c0bd162078403c438f76c49a95
+        FileItemFactory fileItemFactory0 = mock(FileItemFactory.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        NanoFileUpload nanoFileUpload0 = new NanoFileUpload(fileItemFactory0);
 
-      //prepare data for iHTTPSession0
-      Map<String, String> map0 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      doReturn("1").when(map0).get(any());
-      IHTTPSession iHTTPSession0 = mock(IHTTPSession.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      doReturn(map0).when(iHTTPSession0).getHeaders();
-      NanoFileUpload.NanoHttpdContext nanoFileUpload_NanoHttpdContext0 = new NanoFileUpload.NanoHttpdContext(iHTTPSession0);
-      int int0 = nanoFileUpload_NanoHttpdContext0.getContentLength();
-      assertEquals(1, int0);
-  }
-  @Test(timeout = 4000)
-  public void test_parseRequest_4()  throws Throwable  {
-      //caseID:ac40a1d7b2a0f4a565e9a412dbb087fd
-      FileItemFactory fileItemFactory0 = mock(FileItemFactory.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      NanoFileUpload nanoFileUpload0 = new NanoFileUpload(fileItemFactory0);
+        // prepare data for iHTTPSession0
+        Map<String, String> map0 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        IHTTPSession iHTTPSession0 = mock(IHTTPSession.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        doReturn(map0).when(iHTTPSession0).getHeaders();
+        try {
 
-      //prepare data for iHTTPSession0
-      Map<String, String> map0 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      doReturn("multipart/form-data", "content-length", "1.0").when(map0).get(any());
-      InputStream inputStream0 = mock(InputStream.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      Map<String, String> map1 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      Map<String, String> map2 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      IHTTPSession iHTTPSession0 = mock(IHTTPSession.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
-      doReturn(map0, map2, map1).when(iHTTPSession0).getHeaders();
-      doReturn(inputStream0).when(iHTTPSession0).getInputStream();
-      try { 
+            // invoke method for nanoFileUpload0
+            nanoFileUpload0.parseParameterMap(iHTTPSession0);
+        } catch (Throwable e) {
+            verifyException("org.apache.commons.fileupload.FileUploadBase$FileItemIteratorImpl", e);
+            assertEquals("org.apache.commons.fileupload.FileUploadBase$InvalidContentTypeException", e.getClass().getName());
+            assertEquals("the request doesn't contain a multipart/form-data or multipart/mixed stream, content type header is null", e.getMessage());
+        }
+    }
 
-        //invoke method for nanoFileUpload0
-        nanoFileUpload0.parseRequest(iHTTPSession0);
-      } catch(Throwable e) {
-         verifyException("org.apache.commons.fileupload.FileUploadBase$FileItemIteratorImpl", e);
-         assertEquals("org.apache.commons.fileupload.FileUploadException", e.getClass().getName());
-         assertEquals("the request was rejected because no multipart boundary was found", e.getMessage());
-      }
-  }}
+    @Test(timeout = 4000)
+    public void test_getContentLength_3() throws Throwable {
+        // caseID:38ab5c37b1b67de96a9621ad8b537e33
+        FileItemFactory fileItemFactory0 = mock(FileItemFactory.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        NanoFileUpload nanoFileUpload0 = new NanoFileUpload(fileItemFactory0);
+
+        // prepare data for iHTTPSession0
+        Map<String, String> map0 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        doReturn("1").when(map0).get(any());
+        IHTTPSession iHTTPSession0 = mock(IHTTPSession.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        doReturn(map0).when(iHTTPSession0).getHeaders();
+        NanoFileUpload.NanoHttpdContext nanoFileUpload_NanoHttpdContext0 = new NanoFileUpload.NanoHttpdContext(iHTTPSession0);
+        int int0 = nanoFileUpload_NanoHttpdContext0.getContentLength();
+        assertEquals(1, int0);
+    }
+
+    @Test(timeout = 4000)
+    public void test_parseRequest_4() throws Throwable {
+        // caseID:ac40a1d7b2a0f4a565e9a412dbb087fd
+        FileItemFactory fileItemFactory0 = mock(FileItemFactory.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        NanoFileUpload nanoFileUpload0 = new NanoFileUpload(fileItemFactory0);
+
+        // prepare data for iHTTPSession0
+        Map<String, String> map0 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        doReturn("multipart/form-data", "content-length", "1.0").when(map0).get(any());
+        InputStream inputStream0 = mock(InputStream.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        Map<String, String> map1 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        Map<String, String> map2 = (Map<String, String>) mock(Map.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        IHTTPSession iHTTPSession0 = mock(IHTTPSession.class, withSettings().defaultAnswer(new ViolatedAssumptionAnswer()).stubOnly());
+        doReturn(map0, map2, map1).when(iHTTPSession0).getHeaders();
+        doReturn(inputStream0).when(iHTTPSession0).getInputStream();
+        try {
+
+            // invoke method for nanoFileUpload0
+            nanoFileUpload0.parseRequest(iHTTPSession0);
+        } catch (Throwable e) {
+            verifyException("org.apache.commons.fileupload.FileUploadBase$FileItemIteratorImpl", e);
+            assertEquals("org.apache.commons.fileupload.FileUploadException", e.getClass().getName());
+            assertEquals("the request was rejected because no multipart boundary was found", e.getMessage());
+        }
+    }
+}
